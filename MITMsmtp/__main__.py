@@ -72,7 +72,7 @@ class MailLog:
                 log.write(output + "\n\n")
                 log.write(message.message)
 
-def main(args=None):
+def main():
     # Parse arguments
     parser=argparse.ArgumentParser(description="MITMsmtp is an Evil SMTP Server for pentesting SMTP clients to catch login credentials and mails sent over plain or SSL encrypted connections.")
     parser.add_argument('--server_address', default="0.0.0.0", help='IP Address to listen on (default: all)')
@@ -118,3 +118,6 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     server.stop() #Stop SMTPServer
+
+if __name__ == "__main__":
+    main()
