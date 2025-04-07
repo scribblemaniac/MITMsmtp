@@ -25,9 +25,12 @@ class SMTPHandler(StreamRequestHandler):
     """ Reads a line from TCP Stream
     @return: Read line
     """
-    def readLine(self):
-        line = self.rfile.readline().strip()
-        if (self.server.printLines):
+    def readLine(self, skipBlank=True):
+        while True:
+            line = self.rfile.readline().strip()
+            if line or not skipBlank:
+                break
+        if self.server.printLines:
             print("C:" + line)
         return line
 
@@ -180,7 +183,7 @@ class SMTPHandler(StreamRequestHandler):
     def readMSG(self):
         message = ""
         while True:
-            line = self.readLine()
+            line = self.readLine(skipBlank=False)
             if (line == '.'):
                 self.message.setMessage(message)
                 return
