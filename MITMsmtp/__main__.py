@@ -52,7 +52,7 @@ class MailLog:
     @type message: Message
     """
     def messageCallback(self, message):
-        output = """=== Complete Message ===%s\nIP        : %s\n\nUsername  : %s\nPassword  : %s\nClient    : %s\nSender    : %s\n""" % (message.clientIP,
+        output = """=== Complete Message ===\nIP        : %s\n\nUsername  : %s\nPassword  : %s\nClient    : %s\nSender    : %s\n""" % (message.clientIP,
                                                                                                                                          message.username,
                                                                                                                                          message.password,
                                                                                                                                          message.client_name,
