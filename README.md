@@ -20,7 +20,7 @@ MITMsmtp supports the following login methods:
 Challenge-Response based authentication methods like CRAM-MD5, NTLM or Kerberos can't be supported as these methods require the server to know the cleartext password.
 
 ## Setup
-MITMsmtp requires Python3 and setuptools. You might want to install git as well. Use the following command on Debian:
+MITMsmtp requires at least Python 3.6. You might want to install git and setuptools as well. Use the following command on Debian:
 
 `apt install python3 python3-setuptools git`
 
@@ -28,16 +28,24 @@ Now just clone the MITMsmtp repository:
 
 `git clone https://github.com/RobinMeis/MITMsmtp.git`
 
-Change into MITMsmtp directory and start the installation:
+Change into MITMsmtp directory. From there you can run the program as a module with:
 
-`sudo python3 setup.py install`
+`python -m MITMsmtp`
 
-That's it!
+or install it with setuptools by running:
+
+`pip install .`
+
+After installation, you will be able to use the `MITMsmtp` command directly from your terminal.
 
 ### Updating
-`git pull`
 
-`sudo python3 setup.py install`
+From within the MITMsmtp directory run:
+
+```
+git pull`
+pip install .
+```
 
 ## Usage
 *MITMsmtp can be used as standalone command line application and offers an easy to use Python3 API to integrate in your own project*

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MITMsmtp"
+version = "0.0.3-dev"
+authors = [
+    {name = "Robin Meis", email = "blog@smartnoob.de"},
+]
+description = "An evil SMTP Server for client pentesting"
+readme = "README.md"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">= 3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Security"
+]
+
+[project.urls]
+GitHub = "https://github.com/RobinMeis/MITMsmtp"
+
+[project.scripts]
+MITMsmtp = "MITMsmtp.__main__:main"
