@@ -17,10 +17,10 @@ class authPlain(authMethod):
     @returns: The authMethods name
     """
     def __init__(self, SMTPHandler, authLine):
+        super().__init__(SMTPHandler, authLine)
+
         self.SMTPHandler = SMTPHandler
         self.authLine = authLine
-        self.username = None
-        self.password = None
 
         match = re.match("AUTH PLAIN$", authLine)
         if (match != None):
@@ -85,7 +85,6 @@ class authPlain(authMethod):
         self.authSuccess()
         self.username = auth[-2]
         self.password = auth[-1]
-        authSuccess()
 
     """
     Sends success reply

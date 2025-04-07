@@ -18,6 +18,9 @@ class authMethod(ABC):
     def __init__(self, SMTPHandler, authLine):
         super().__init__()
 
+        self.username = None
+        self.password = None
+
     """ Returns the authMethods name
 
     Has to be overwritten, otherwise authentication method can't be advertised to client!

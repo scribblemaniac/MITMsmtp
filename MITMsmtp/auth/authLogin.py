@@ -17,10 +17,10 @@ class authLogin (authMethod):
     @returns: The authMethods name
     """
     def __init__(self, SMTPHandler, authLine):
+        super().__init__(SMTPHandler, authLine)
+
         self.SMTPHandler = SMTPHandler
         self.authLine = authLine
-        self.username = None
-        self.password = None
 
         self.requestUsername()
         self.readUsername()

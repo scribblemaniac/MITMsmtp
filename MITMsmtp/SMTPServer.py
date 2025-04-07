@@ -6,7 +6,7 @@ import ssl
 """
 SMTPServer wrapper class for TCPServer
 """
-class SMTPServer(TCPServer):
+class SMTPServer(ThreadingMixIn, TCPServer):
     """ Creates a new SMTPServer object
     @param server_address: The address to listen on
     @type server_address: str
@@ -86,4 +86,3 @@ class SMTPServer(TCPServer):
 
         return connstream
 
-class SMTPServer(ThreadingMixIn, SMTPServer): pass
