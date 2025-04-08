@@ -28,6 +28,8 @@ class MITMsmtp:
     @type certfile: str
     @param keyfile: Path to the keyfile to be used
     @type keyfile: str
+    @param CRAMMD5Challenge: Base64 encoded string to use for CRAM-MD5 challenge
+    @type CRAMMD5Challenge: str
     @param printLines: Print communication between client and server on command line
     @type printLines: bool
 
@@ -43,6 +45,7 @@ class MITMsmtp:
                     SSL=False,
                     certfile=None,
                     keyfile=None,
+                    CRAMMD5Challenge=None,
                     printLines=False):
         self.server_address = server_address
         self.port = port
@@ -53,6 +56,7 @@ class MITMsmtp:
         self.SSL = SSL
         self.certfile = certfile
         self.keyfile = keyfile
+        self.CRAMMD5Challenge = CRAMMD5Challenge
         self.printLines = printLines
         self.SMTPServer = None
         self.thread = None
@@ -77,6 +81,7 @@ class MITMsmtp:
                                             self.keyfile,
                                             self.STARTTLS,
                                             self.SSL,
+                                            self.CRAMMD5Challenge,
                                             self.printLines)
 
             self.thread = threading.Thread(target=self.SMTPServer.serve_forever)

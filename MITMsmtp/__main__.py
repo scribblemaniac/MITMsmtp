@@ -87,6 +87,7 @@ def main():
     parser.add_argument('--disable-auth-plain', action='store_true', help='Disables authentication using method PLAIN (default: False)')
     parser.add_argument('--disable-auth-login', action='store_true', help='Disables authentication using method LOGIN (default: False)')
     parser.add_argument('--enable-auth-cram-md5', action='store_true', help='Enables authentication using method CRAM-MD5 (default: False)')
+    parser.add_argument('--cram-md5-challenge', default=None, help='Base64 encoded string to use as the challenge for CRAM-MD5 authentication (default: generated Message-Id)')
     parser.add_argument('--print-lines', action='store_true', help='Prints communication between Client and MITMsmtp (default: False)')
     args=parser.parse_args()
 
@@ -110,6 +111,7 @@ def main():
                                 args.SSL,
                                 args.certfile,
                                 args.keyfile,
+                                args.cram_md5_challenge,
                                 args.print_lines) #Create new SMTPServer
 
     messages.registerLoginCallback(log.loginCallback) #Register callback for login

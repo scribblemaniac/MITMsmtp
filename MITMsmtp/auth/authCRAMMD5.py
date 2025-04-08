@@ -55,8 +55,10 @@ class authCRAMMD5(authMethod):
     Sends the challenge
     """
     def sendChallenge(self):
-        challenge = email.utils.make_msgid(domain=self.SMTPHandler.server.name)
-        challenge = base64.b64encode(challenge.encode("ASCII")).decode("ASCII")
+        challenge = self.SMTPHandler.server.CRAMMD5Challenge
+        if challenge is None:
+            challenge = email.utils.make_msgid(domain=self.SMTPHandler.server.name)
+            challenge = base64.b64encode(challenge.encode("ASCII")).decode("ASCII")
         self.SMTPHandler.writeLine(f"334 " + challenge)
         self.challenge = challenge
 

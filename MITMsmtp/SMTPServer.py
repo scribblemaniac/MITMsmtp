@@ -45,6 +45,7 @@ class SMTPServer(ThreadingMixIn, TCPServer):
                  keyfile=None,
                  STARTTLS=False,
                  SSL=False,
+                 CRAMMD5Challenge=None,
                  printLines=False,
                  ssl_version=ssl.PROTOCOL_TLS,
                  bind_and_activate=True):
@@ -56,6 +57,7 @@ class SMTPServer(ThreadingMixIn, TCPServer):
         self.SSL = SSL
         self.certfile = certfile
         self.keyfile = keyfile
+        self.CRAMMD5Challenge = CRAMMD5Challenge
         self.printLines = printLines
         self.ssl_version = ssl_version
 
