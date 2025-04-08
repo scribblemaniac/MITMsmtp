@@ -3,12 +3,13 @@
 from .authMethod import authMethod
 import re
 import base64
+import email.utils
 
 """
-Class to handle authMethod LOGIN
+Class to handle authMethod CRAM-MD5
 """
 
-class authLogin (authMethod):
+class authCRAMMD5(authMethod):
     """Creates new authMethod object
     @type SMTPHandler: SMTPHandler
     @param SMTPHandler: SMTPHandler Object
@@ -21,10 +22,10 @@ class authLogin (authMethod):
         self.SMTPHandler = SMTPHandler
         self.authLine = authLine
 
-        self.requestUsername()
-        self.readUsername()
-        self.requestPassword()
-        self.readPassword()
+        self.challenge = None
+
+        self.sendChallenge()
+        self.readResponse()
         self.acceptAuth()
 
     """ Returns the authMethods name
@@ -32,7 +33,7 @@ class authLogin (authMethod):
     """
     @staticmethod
     def toString():
-        return "LOGIN"
+        return "CRAM-MD5"
 
     """Checks if the chosen methods sent by the client equals to this method
 
@@ -42,7 +43,7 @@ class authLogin (authMethod):
     """
     @staticmethod
     def matchMethod(authLine):
-        match = re.match("^AUTH LOGIN", authLine, re.IGNORECASE)
+        match = re.match("AUTH CRAM-MD5", authLine, re.IGNORECASE)
         return match is not None
 
     ###############################################
@@ -51,28 +52,25 @@ class authLogin (authMethod):
     ###############################################
 
     """
-    Requests the username
+    Sends the challenge
     """
-    def requestUsername(self):
-        self.SMTPHandler.writeLine("334 VXNlcm5hbWU6")
+    def sendChallenge(self):
+        challenge = email.utils.make_msgid(domain=self.SMTPHandler.server.name)
+        challenge = base64.b64encode(challenge.encode("ASCII")).decode("ASCII")
+        self.SMTPHandler.writeLine(f"334 " + challenge)
+        self.challenge = challenge
 
     """
-    Reads the response to the username request
+    Reads the response to challenge
     """
-    def readUsername(self):
-        self.username = base64.b64decode(self.SMTPHandler.readLine()).decode("ASCII")
+    def readResponse(self):
+        response = self.SMTPHandler.readLine()
+        splitResponse = base64.b64decode(response).decode("ASCII").split(" ")
+        if len(splitResponse) != 2:
+            raise ValueError("Invalid response")
 
-    """
-    Requests the password
-    """
-    def requestPassword(self):
-        self.SMTPHandler.writeLine("334 UGFzc3dvcmQ6")
-
-    """
-    Reads the response to the password request
-    """
-    def readPassword(self):
-        self.password = base64.b64decode(self.SMTPHandler.readLine()).decode("ASCII")
+        self.username = splitResponse[0]
+        self.password =  f"$cram_md5${self.challenge}${response}"
 
     """
     Send success message

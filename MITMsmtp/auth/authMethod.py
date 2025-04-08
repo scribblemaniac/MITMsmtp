@@ -13,7 +13,6 @@ class authMethod(ABC):
     @param SMTPHandler: SMTPHandler Object
     @type authLine: str
     @param authLine: Sent line by client for authentication
-    @returns: The authMethods name
     """
     def __init__(self, SMTPHandler, authLine):
         super().__init__()

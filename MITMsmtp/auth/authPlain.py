@@ -14,7 +14,6 @@ class authPlain(authMethod):
     @param SMTPHandler: SMTPHandler Object
     @type authLine: str
     @param authLine: Sent line by client for authentication
-    @returns: The authMethods name
     """
     def __init__(self, SMTPHandler, authLine):
         super().__init__(SMTPHandler, authLine)
@@ -22,8 +21,8 @@ class authPlain(authMethod):
         self.SMTPHandler = SMTPHandler
         self.authLine = authLine
 
-        match = re.match("AUTH PLAIN$", authLine)
-        if (match != None):
+        match = re.match("AUTH PLAIN$", authLine, re.IGNORECASE)
+        if match is not None:
             self.auth()
         else:
             self.fastAuth()
@@ -43,11 +42,8 @@ class authPlain(authMethod):
     """
     @staticmethod
     def matchMethod(authLine):
-        match = re.match("AUTH PLAIN", authLine)
-        if (match == None):
-            return False
-        else:
-            return True
+        match = re.match("AUTH PLAIN", authLine, re.IGNORECASE)
+        return match is not None
 
     ###############################################
     #           AUTHENTICATION SECTION            #
@@ -59,8 +55,8 @@ class authPlain(authMethod):
     In case the client sent the credentials directly within the AUTH PLAIN response, just extract it
     """
     def fastAuth(self):
-        match = re.match("AUTH PLAIN ([A-Za-z0-9]*=*)$", self.authLine)
-        if (match == None):
+        match = re.match("AUTH PLAIN ([A-Za-z0-9]*=*)$", self.authLine, re.IGNORECASE)
+        if match is None:
             raise ValueError("Failed to perform AUTH PLAIN")
 
         auth = base64.b64decode(match.group(1)).decode("ASCII").split('\x00')
